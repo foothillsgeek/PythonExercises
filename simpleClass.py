@@ -2,17 +2,20 @@
 
 import random
 
-def genServerList():
+def genServerNames():
   serverAmount = 10
-  serverList = []
+  serverNames = []
   for n in range(0, serverAmount, +1):
-    serverList.append("server"+str(n))
-  return(serverList)
+    serverNames.append("server"+str(n))
+  return(serverNames)
 
 def createServers(servers):
+  server_instances = []
   for server in servers:
     print("Creating server with hostname " + str(server))
     server = Server(server)
+    server_instances.append(server)
+  return(server_instances)
 
 class Server():
   def __init__(self, hostname):
@@ -21,15 +24,8 @@ class Server():
     self.disk = random.randrange(128,4096,128)
     print("Server with hostname " + self.hostname  + " created.")
 
+serverNames = genServerNames()
+servers = createServers(serverNames)
 
-serverList = genServerList()
-#print(serverList)
-#createServers(serverList)
-
-for server in serverList:
-  server = Server(server)
-
-print(server0.hostname)
-
-#for server in serverList:
-#  print("Hostname: " + server.hostname + '\t' + "Memory (MB): " + server.memory + '\t' + "Disk Space: " + server.disk)
+for server in servers:
+  print("Hostname: " + server.hostname + '\t' + "Memory (MB): " + str(server.memory) + '\t' + "Disk Space: " + str(server.disk))
