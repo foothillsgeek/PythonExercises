@@ -15,6 +15,7 @@ def createServers(servers):
     server = Server(server)
 
 class Server(hostname):
+  hostname = None
   def __init__(self, hostname):
     self.hostname = hostname
     self.memory = random.randrange(512,65536,512)
