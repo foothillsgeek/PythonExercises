@@ -4,6 +4,7 @@ import argparse
 import json
 import urllib.request
 
+# Set up argparser, add one argument option, parse it, and assign it to arguments
 argparser = argparse.ArgumentParser()
 argparser.add_argument("-u","--url", action="store", dest="url", help="URL to JSON data")
 arguments = argparser.parse_args()
