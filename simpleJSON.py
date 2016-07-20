@@ -1,16 +1,37 @@
 #!/usr/bin/python3
 
+import argparse
 import json
 import urllib.request
+
+argparser = argparse.ArgumentParser()
+argparser.add_argument("-u","--url", action="store", dest="url", help="URL to JSON data")
+arguments = argparser.parse_args()
 
 # User-Agent header is required by most sites
 http_header = {'User-Agent': "Mozilla/5.0 (Windows NT 6.1; Win64; x64)"}
 
-# Set up the HTTP request
-http_request = urllib.request.Request("https://jsonplaceholder.typicode.com/posts", None, http_header)
+# Verify that there was a URL passed to the script
+if not arguments.url:
+  print("Please pass a JSON URL for parsing using the -u / --url flags.")
+  exit()
 
-# Initiate the request
-http_response = urllib.request.urlopen(http_request)
+# Try to set up the HTTP request. Catch exceptions with the URL formatting
+try:
+  http_request = urllib.request.Request(arguments.url, None, http_header)
+except ValueError:
+  print("There was an issue with the URL provided. Please check the URL and try again")
+  exit()
+
+# Try to initiate the HTTP request and report any errors received.
+try:
+  http_response = urllib.request.urlopen(http_request)
+except urllib.error.HTTPError as error:
+  print("An error code was recieved from the server: {}".format(error.code))
+  exit()
+except urllib.error.URLError as error:
+  print("A URL error was received from the server: {}".format(error.args))
+  exit()
 
 # Read the request data
 json_posts = http_response.read().decode('utf8')
